@@ -269,7 +269,7 @@ export default function HomeClient() {
                       aspectRatio: "6/7",
                     }}
                   >
-                    <div className="relative overflow-hidden">
+                    <div className="absolute inset-0 overflow-hidden">
                       <motion.div
                         className="w-full h-full"
                         initial={reduced ? { scale: 1 } : { scale: 1.04 }}
