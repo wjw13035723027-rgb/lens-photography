@@ -65,7 +65,7 @@ export default function HomeClient() {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         if (parallaxRef.current) {
-          parallaxRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`;
+          parallaxRef.current.style.transform = `translateY(${window.scrollY * 0.15}px)`;
         }
       });
     };
@@ -106,7 +106,7 @@ export default function HomeClient() {
           className="absolute inset-0 will-change-transform"
         >
           <Image
-            src="/photos/optimized/DSC_1700.webp"
+            src="/photos/kansai/optimized/DSC_1700.webp"
             alt=""
             fill
             sizes="100vw"
@@ -116,24 +116,6 @@ export default function HomeClient() {
           <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/30 to-background" />
         </div>
 
-        <motion.div
-          className="absolute top-1/4 -left-32 w-[32rem] h-[32rem] rounded-full blur-[120px]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(200,146,86,0.10), transparent 70%)",
-          }}
-          animate={{ x: [0, 60, -30, 0], y: [0, -40, 60, 0] }}
-          transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 -right-32 w-[28rem] h-[28rem] rounded-full blur-[100px]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(180,160,140,0.06), transparent 70%)",
-          }}
-          animate={{ x: [0, -50, 40, 0], y: [0, 50, -30, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
 
         <div className="relative z-10 text-center px-6">
           <motion.p
@@ -155,7 +137,7 @@ export default function HomeClient() {
                 ? { duration: 0 }
                 : { duration: 0.8, delay: 0.1, ease: "easeOut" }
             }
-            className="text-6xl sm:text-7xl lg:text-9xl font-black font-serif tracking-[-0.02em] text-foreground leading-[0.9]"
+            className="text-7xl sm:text-8xl lg:text-9xl font-black font-serif tracking-[-0.02em] text-foreground leading-[0.9]"
           >
             镜头之下
           </motion.h1>
@@ -191,15 +173,11 @@ export default function HomeClient() {
           initial={reduced ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={reduced ? { duration: 0 } : { delay: 0.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
         >
-          <div className="w-5 h-8 rounded-full border border-foreground/15 flex items-start justify-center p-1">
-            <motion.div
-              animate={reduced ? { y: 0 } : { y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-1 bg-foreground/30 rounded-full"
-            />
-          </div>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1" className="text-foreground/15">
+            <path d="M6 8l4 4 4-4" />
+          </svg>
         </motion.div>
       </section>
 
