@@ -100,11 +100,13 @@ body.lightbox-open {
   opacity: 1;
 }
 
-@supports (animation-timeline: view()) {
-  .animate-reveal {
-    animation: reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 30%;
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .animate-reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
   }
 }
 
