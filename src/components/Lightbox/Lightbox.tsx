@@ -65,7 +65,7 @@ export default function Lightbox({ photos, cursor, onCursorChange, onClose }: Pr
       className="fixed inset-0 z-[100] bg-black/97 flex items-center justify-center"
       initial={noAnim ?? { opacity: 0 }}
       animate={noAnim ?? { opacity: 1 }}
-      exit={noAnim ?? { opacity: 0 }}
+      exit={noAnim ?? { opacity: 0, scale: 0.97 }}
       transition={reduced ? { duration: 0 } : { duration: 0.4 }}
       onClick={onClose}
     >
@@ -103,13 +103,13 @@ export default function Lightbox({ photos, cursor, onCursorChange, onClose }: Pr
         </svg>
       </button>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.div
           key={photo.id}
-          initial={noAnim ?? { opacity: 0, scale: 0.97 }}
+          initial={noAnim ?? { opacity: 0, scale: 1.02 }}
           animate={noAnim ?? { opacity: 1, scale: 1 }}
-          exit={noAnim ?? { opacity: 0, scale: 1.03 }}
-          transition={reduced ? { duration: 0 } : { duration: 0.3 }}
+          exit={noAnim ?? { opacity: 0, scale: 0.98 }}
+          transition={reduced ? { duration: 0 } : { duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-[90vw] max-h-[90vh] relative"
           onClick={(e) => e.stopPropagation()}
           onTouchStart={onTouchStart}
@@ -136,8 +136,24 @@ export default function Lightbox({ photos, cursor, onCursorChange, onClose }: Pr
             draggable={false}
           />
           <div className="mt-5 text-center">
-            <p className="text-white/90 text-sm font-serif tracking-wide">{photo.title}</p>
-            <p className="text-white/35 text-xs mt-1.5 tracking-wide">{photo.location}</p>
+            <motion.p
+              key={`title-${photo.id}`}
+              initial={noAnim ?? { opacity: 0 }}
+              animate={noAnim ?? { opacity: 1 }}
+              transition={reduced ? { duration: 0 } : { duration: 0.35, delay: 0.1 }}
+              className="text-white/90 text-xs font-serif tracking-wide"
+            >
+              {photo.title}
+            </motion.p>
+            <motion.p
+              key={`loc-${photo.id}`}
+              initial={noAnim ?? { opacity: 0 }}
+              animate={noAnim ?? { opacity: 1 }}
+              transition={reduced ? { duration: 0 } : { duration: 0.35, delay: 0.15 }}
+              className="text-white/35 text-[11px] mt-1 tracking-wide"
+            >
+              {photo.location}
+            </motion.p>
           </div>
         </motion.div>
       </AnimatePresence>
