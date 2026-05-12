@@ -83,13 +83,14 @@ export default function HomeClient() {
       grouped[photo.category].push(photo);
     }
 
-    return CATEGORIES.filter((cat) => grouped[cat]?.length).map((cat): ProjectMeta => {
+    return CATEGORIES.filter((cat) => grouped[cat]?.length).map((cat): ProjectMeta & { blurDataURL?: string } => {
       const items = grouped[cat];
       const cover = items[0];
       return {
         slug: cat,
         title: CATEGORY_LABELS[cat],
         cover: cover.thumbnail,
+        blurDataURL: cover.blurDataURL,
         description: `${items.length} 张作品`,
         year: "2025",
         photoCount: items.length,
@@ -287,7 +288,10 @@ export default function HomeClient() {
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                           unoptimized
+                          placeholder={project.blurDataURL ? "blur" : undefined}
+                          blurDataURL={project.blurDataURL}
                           className="object-cover"
+                          style={{ transition: "filter 0.5s ease-out" }}
                         />
                       </motion.div>
                       <motion.div

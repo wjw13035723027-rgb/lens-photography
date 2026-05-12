@@ -114,6 +114,8 @@ export default function MasonryGrid({ photos }: Props) {
                       height={photo.height}
                       sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       unoptimized
+                      placeholder={photo.blurDataURL ? "blur" : undefined}
+                      blurDataURL={photo.blurDataURL}
                       className="w-full h-auto block transition-all duration-600 ease-out group-hover:scale-[1.04] group-hover:saturate-[1.1]"
                     />
                   </motion.div>

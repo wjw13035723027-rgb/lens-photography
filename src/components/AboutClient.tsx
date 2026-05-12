@@ -27,6 +27,7 @@ export default function AboutClient() {
               fill
               sizes="112px"
               className="object-cover object-[50%_25%]"
+              style={{ transition: "filter 0.5s ease-out" }}
             />
           </div>
           <p className="text-base leading-8 text-muted max-w-lg animate-reveal">

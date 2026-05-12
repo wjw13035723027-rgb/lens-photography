@@ -116,6 +116,10 @@ export default function Lightbox({ photos, cursor, onCursorChange, onClose }: Pr
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
           style={{
+            backgroundImage: `url(${photo.thumbnail})`,
+            backgroundSize: "contain",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             transform: touchDelta ? `translateX(${touchDelta}px)` : undefined,
             transition: touchDelta ? "none" : undefined,
           }}
@@ -127,7 +131,8 @@ export default function Lightbox({ photos, cursor, onCursorChange, onClose }: Pr
             height={photo.height}
             sizes="90vw"
             quality={85}
-            className="max-w-full max-h-[82vh] object-contain select-none"
+            className="max-w-full max-h-[82vh] object-contain select-none relative z-10"
+            style={{ transition: "opacity 0.5s ease-out" }}
             draggable={false}
           />
           <div className="mt-5 text-center">
