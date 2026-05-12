@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "build": "prisma generate && npx tsx prisma/seed.ts && next build",
+    "build": "prisma generate && tsx prisma/seed.ts && next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -33,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
