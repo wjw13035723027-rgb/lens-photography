@@ -262,21 +262,47 @@ export default function HomeClient() {
                             ease: [0.16, 1, 0.3, 1],
                           }
                     }
-                    className="relative overflow-hidden rounded-2xl bg-card border border-border/50 transition-all duration-500 ease-out group-hover:shadow-[0_0_80px_rgba(200,146,86,0.06)] group-hover:rotate-0 group-hover:scale-[1.02]"
+                    className="relative overflow-hidden rounded-2xl bg-card border border-border/50 transition-shadow duration-500 ease-out hover:shadow-[0_0_80px_rgba(200,146,86,0.06)]"
                     style={{
                       rotate: `${rotate}deg`,
                       translate: `${tx}px 0`,
                       aspectRatio: "6/7",
                     }}
                   >
-                    <Image
-                      src={project.cover}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                      unoptimized
-                      className="object-cover transition-all duration-600 ease-out group-hover:scale-[1.04] group-hover:saturate-[1.08]"
-                    />
+                    <div className="relative overflow-hidden">
+                      <motion.div
+                        className="w-full h-full"
+                        initial={reduced ? { scale: 1 } : { scale: 1.04 }}
+                        whileInView={reduced ? { scale: 1 } : { scale: 1 }}
+                        viewport={{ once: true, margin: "-80px" }}
+                        transition={
+                          reduced
+                            ? { duration: 0 }
+                            : { duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }
+                        }
+                      >
+                        <Image
+                          src={project.cover}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                          unoptimized
+                          className="object-cover"
+                        />
+                      </motion.div>
+                      <motion.div
+                        className="absolute inset-0"
+                        style={{ background: "var(--background)" }}
+                        initial={reduced ? { y: "-100%" } : { y: "0%" }}
+                        whileInView={reduced ? { y: "-100%" } : { y: "-100%" }}
+                        viewport={{ once: true, margin: "-80px" }}
+                        transition={
+                          reduced
+                            ? { duration: 0 }
+                            : { duration: 0.65, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }
+                        }
+                      />
+                    </div>
 
                     <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                       <div className="absolute inset-x-0 bottom-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out">
