@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --font-sans: "Noto Serif SC", "STSong", "SimSun", ui-serif, Georgia, serif;
+  --font-serif: "Noto Serif SC", "STSong", "SimSun", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Cascadia Code", ui-monospace, monospace;
+}
+
+/* 暗色模式 — 暖暗棕暗房色调 */
+:root,
+[data-theme="dark"] {
+  --background: #0D0B0A;
+  --foreground: #E8E0D5;
+  --muted: #8A8078;
+  --border: #1F1A16;
+  --card: #141110;
+  --accent: #C89256;
+  --accent-hover: #D9A86C;
+}
+
+/* 浅色模式 — 相纸白 */
+[data-theme="light"] {
+  --background: #F5F0E8;
+  --foreground: #1A1510;
+  --muted: #7A7068;
+  --border: #E0D8CC;
+  --card: #FFFFFF;
+  --accent: #B07840;
+  --accent-hover: #C89256;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Film grain overlay — more pronounced for retro feel */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Vignette effect on dark mode only */
+[data-theme="dark"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.35) 100%);
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
