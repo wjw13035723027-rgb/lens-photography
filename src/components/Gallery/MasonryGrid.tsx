@@ -95,15 +95,41 @@ export default function MasonryGrid({ photos }: Props) {
                 }}
                 aria-label={`查看 ${photo.title}`}
               >
-                <Image
-                  src={photo.thumbnail}
-                  alt={photo.title}
-                  width={photo.width}
-                  height={photo.height}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                  unoptimized
-                  className="w-full h-auto block transition-all duration-600 ease-out group-hover:scale-[1.04] group-hover:saturate-[1.1]"
-                />
+                <div className="relative overflow-hidden">
+                  <motion.div
+                    className="w-full"
+                    initial={noAnim ?? { scale: 1.04 }}
+                    whileInView={noAnim ?? { scale: 1 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={
+                      reduced
+                        ? { duration: 0 }
+                        : { duration: 0.65, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }
+                    }
+                  >
+                    <Image
+                      src={photo.thumbnail}
+                      alt={photo.title}
+                      width={photo.width}
+                      height={photo.height}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      unoptimized
+                      className="w-full h-auto block transition-all duration-600 ease-out group-hover:scale-[1.04] group-hover:saturate-[1.1]"
+                    />
+                  </motion.div>
+                  <motion.div
+                    className="absolute inset-0"
+                    style={{ background: "var(--background)" }}
+                    initial={noAnim ?? { y: "0%" }}
+                    whileInView={noAnim ?? { y: "-100%" }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={
+                      reduced
+                        ? { duration: 0 }
+                        : { duration: 0.6, delay: index * 0.04 + 0.05, ease: [0.16, 1, 0.3, 1] }
+                    }
+                  />
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                   <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] tracking-widest bg-white/10 backdrop-blur-sm text-white/80 border border-white/[0.08] translate-y-1 group-hover:translate-y-0 transition-transform duration-500 ease-out">
                     {photo.location}
