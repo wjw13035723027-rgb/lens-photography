@@ -673,6 +673,7 @@ export const PhotoScalarFieldEnum = {
   category: 'category',
   width: 'width',
   height: 'height',
+  blurDataURL: 'blurDataURL',
   createdAt: 'createdAt'
 } as const
 

@@ -45,6 +45,7 @@ export type PhotoMinAggregateOutputType = {
   category: string | null
   width: number | null
   height: number | null
+  blurDataURL: string | null
   createdAt: Date | null
 }
 
@@ -57,6 +58,7 @@ export type PhotoMaxAggregateOutputType = {
   category: string | null
   width: number | null
   height: number | null
+  blurDataURL: string | null
   createdAt: Date | null
 }
 
@@ -69,6 +71,7 @@ export type PhotoCountAggregateOutputType = {
   category: number
   width: number
   height: number
+  blurDataURL: number
   createdAt: number
   _all: number
 }
@@ -93,6 +96,7 @@ export type PhotoMinAggregateInputType = {
   category?: true
   width?: true
   height?: true
+  blurDataURL?: true
   createdAt?: true
 }
 
@@ -105,6 +109,7 @@ export type PhotoMaxAggregateInputType = {
   category?: true
   width?: true
   height?: true
+  blurDataURL?: true
   createdAt?: true
 }
 
@@ -117,6 +122,7 @@ export type PhotoCountAggregateInputType = {
   category?: true
   width?: true
   height?: true
+  blurDataURL?: true
   createdAt?: true
   _all?: true
 }
@@ -216,6 +222,7 @@ export type PhotoGroupByOutputType = {
   category: string
   width: number
   height: number
+  blurDataURL: string | null
   createdAt: Date
   _count: PhotoCountAggregateOutputType | null
   _avg: PhotoAvgAggregateOutputType | null
@@ -251,6 +258,7 @@ export type PhotoWhereInput = {
   category?: Prisma.StringFilter<"Photo"> | string
   width?: Prisma.IntFilter<"Photo"> | number
   height?: Prisma.IntFilter<"Photo"> | number
+  blurDataURL?: Prisma.StringNullableFilter<"Photo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Photo"> | Date | string
 }
 
@@ -263,6 +271,7 @@ export type PhotoOrderByWithRelationInput = {
   category?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  blurDataURL?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -278,6 +287,7 @@ export type PhotoWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.StringFilter<"Photo"> | string
   width?: Prisma.IntFilter<"Photo"> | number
   height?: Prisma.IntFilter<"Photo"> | number
+  blurDataURL?: Prisma.StringNullableFilter<"Photo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Photo"> | Date | string
 }, "id">
 
@@ -290,6 +300,7 @@ export type PhotoOrderByWithAggregationInput = {
   category?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  blurDataURL?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.PhotoCountOrderByAggregateInput
   _avg?: Prisma.PhotoAvgOrderByAggregateInput
@@ -310,6 +321,7 @@ export type PhotoScalarWhereWithAggregatesInput = {
   category?: Prisma.StringWithAggregatesFilter<"Photo"> | string
   width?: Prisma.IntWithAggregatesFilter<"Photo"> | number
   height?: Prisma.IntWithAggregatesFilter<"Photo"> | number
+  blurDataURL?: Prisma.StringNullableWithAggregatesFilter<"Photo"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Photo"> | Date | string
 }
 
@@ -322,6 +334,7 @@ export type PhotoCreateInput = {
   category: string
   width: number
   height: number
+  blurDataURL?: string | null
   createdAt?: Date | string
 }
 
@@ -334,6 +347,7 @@ export type PhotoUncheckedCreateInput = {
   category: string
   width: number
   height: number
+  blurDataURL?: string | null
   createdAt?: Date | string
 }
 
@@ -346,6 +360,7 @@ export type PhotoUpdateInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   height?: Prisma.IntFieldUpdateOperationsInput | number
+  blurDataURL?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -358,6 +373,7 @@ export type PhotoUncheckedUpdateInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   height?: Prisma.IntFieldUpdateOperationsInput | number
+  blurDataURL?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -370,6 +386,7 @@ export type PhotoCreateManyInput = {
   category: string
   width: number
   height: number
+  blurDataURL?: string | null
   createdAt?: Date | string
 }
 
@@ -382,6 +399,7 @@ export type PhotoUpdateManyMutationInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   height?: Prisma.IntFieldUpdateOperationsInput | number
+  blurDataURL?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -394,6 +412,7 @@ export type PhotoUncheckedUpdateManyInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   height?: Prisma.IntFieldUpdateOperationsInput | number
+  blurDataURL?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -406,6 +425,7 @@ export type PhotoCountOrderByAggregateInput = {
   category?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  blurDataURL?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -423,6 +443,7 @@ export type PhotoMaxOrderByAggregateInput = {
   category?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  blurDataURL?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -435,6 +456,7 @@ export type PhotoMinOrderByAggregateInput = {
   category?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  blurDataURL?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -455,6 +477,10 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
@@ -470,6 +496,7 @@ export type PhotoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   category?: boolean
   width?: boolean
   height?: boolean
+  blurDataURL?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["photo"]>
 
@@ -482,6 +509,7 @@ export type PhotoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   category?: boolean
   width?: boolean
   height?: boolean
+  blurDataURL?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["photo"]>
 
@@ -494,6 +522,7 @@ export type PhotoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   category?: boolean
   width?: boolean
   height?: boolean
+  blurDataURL?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["photo"]>
 
@@ -506,10 +535,11 @@ export type PhotoSelectScalar = {
   category?: boolean
   width?: boolean
   height?: boolean
+  blurDataURL?: boolean
   createdAt?: boolean
 }
 
-export type PhotoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "src" | "thumbnail" | "title" | "location" | "category" | "width" | "height" | "createdAt", ExtArgs["result"]["photo"]>
+export type PhotoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "src" | "thumbnail" | "title" | "location" | "category" | "width" | "height" | "blurDataURL" | "createdAt", ExtArgs["result"]["photo"]>
 
 export type $PhotoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Photo"
@@ -523,6 +553,7 @@ export type $PhotoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     category: string
     width: number
     height: number
+    blurDataURL: string | null
     createdAt: Date
   }, ExtArgs["result"]["photo"]>
   composites: {}
@@ -955,6 +986,7 @@ export interface PhotoFieldRefs {
   readonly category: Prisma.FieldRef<"Photo", 'String'>
   readonly width: Prisma.FieldRef<"Photo", 'Int'>
   readonly height: Prisma.FieldRef<"Photo", 'Int'>
+  readonly blurDataURL: Prisma.FieldRef<"Photo", 'String'>
   readonly createdAt: Prisma.FieldRef<"Photo", 'DateTime'>
 }
     

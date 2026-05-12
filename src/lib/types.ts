@@ -15,6 +15,7 @@ export interface Photo {
   category: Category;
   width: number;
   height: number;
+  blurDataURL?: string;
 }
 
 export interface ProjectMeta {
