@@ -63,11 +63,11 @@ export default function ContactClient() {
         transition={reduced ? { duration: 0 } : { duration: 0.7, ease: "easeOut" }}
       >
         <p className="text-accent text-xs tracking-[0.2em] uppercase mb-4">Contact</p>
-        <h1 className="text-3xl sm:text-4xl font-serif tracking-widest mb-4">联系</h1>
-        <p className="text-muted text-sm mb-16 tracking-wide">合作、约拍、或其他事宜，欢迎来信。</p>
+        <h1 className="text-3xl sm:text-4xl font-serif tracking-widest mb-4 animate-reveal">联系</h1>
+        <p className="text-muted text-sm mb-16 tracking-wide animate-reveal">合作、约拍、或其他事宜，欢迎来信。</p>
 
         {!user && (
-          <p className="text-muted text-xs text-center mb-8">
+          <p className="text-muted text-xs text-center mb-8 animate-reveal">
             <Link href="/login" className="text-accent hover:text-accent-hover transition-colors">登录</Link>
             {" "}后留言可在仪表盘查看回复
           </p>
@@ -90,7 +90,7 @@ export default function ContactClient() {
               <p className="text-red-400 text-sm text-center">{serverError}</p>
             )}
 
-            <div>
+            <div className="animate-reveal">
               <label className="block text-xs tracking-[0.15em] text-muted uppercase mb-3" htmlFor="name">姓名</label>
               <input
                 id="name"
@@ -101,7 +101,7 @@ export default function ContactClient() {
               {errors.name && <p className="text-red-400 text-xs mt-2">{errors.name.message}</p>}
             </div>
 
-            <div>
+            <div className="animate-reveal">
               <label className="block text-xs tracking-[0.15em] text-muted uppercase mb-3" htmlFor="email">邮箱</label>
               <input
                 id="email"
@@ -113,7 +113,7 @@ export default function ContactClient() {
               {errors.email && <p className="text-red-400 text-xs mt-2">{errors.email.message}</p>}
             </div>
 
-            <div>
+            <div className="animate-reveal">
               <label className="block text-xs tracking-[0.15em] text-muted uppercase mb-3" htmlFor="subject">主题</label>
               <input
                 id="subject"
@@ -124,7 +124,7 @@ export default function ContactClient() {
               {errors.subject && <p className="text-red-400 text-xs mt-2">{errors.subject.message}</p>}
             </div>
 
-            <div>
+            <div className="animate-reveal">
               <label className="block text-xs tracking-[0.15em] text-muted uppercase mb-3" htmlFor="message">留言</label>
               <textarea
                 id="message"
@@ -139,7 +139,7 @@ export default function ContactClient() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-10 py-3 bg-foreground text-background text-sm tracking-widest rounded-full hover:opacity-80 transition-opacity disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="px-10 py-3 bg-foreground text-background text-sm tracking-widest rounded-full hover:opacity-80 transition-opacity disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background animate-reveal"
             >
               {isSubmitting ? "发送中…" : "发送"}
             </button>

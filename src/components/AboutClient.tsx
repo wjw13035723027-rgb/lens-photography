@@ -29,16 +29,16 @@ export default function AboutClient() {
               className="object-cover object-[50%_25%]"
             />
           </div>
-          <p className="text-base leading-8 text-muted max-w-lg">
+          <p className="text-base leading-8 text-muted max-w-lg animate-reveal">
             热爱光影，痴迷于捕捉那些转瞬即逝的瞬间。擅长风光与街拍，喜欢用镜头讲述城市与自然的故事。
           </p>
         </div>
 
         <div className="mb-20">
-          <h2 className="text-xs tracking-[0.2em] text-muted uppercase mb-6">Gear</h2>
+          <h2 className="text-xs tracking-[0.2em] text-muted uppercase mb-6 animate-reveal">Gear</h2>
           <ul className="space-y-3">
             {gear.map((item) => (
-              <li key={item} className="text-sm text-foreground/80 tracking-wide">{item}</li>
+              <li key={item} className="text-sm text-foreground/80 tracking-wide animate-reveal">{item}</li>
             ))}
           </ul>
         </div>

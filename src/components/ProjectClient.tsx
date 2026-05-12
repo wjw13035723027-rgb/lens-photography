@@ -79,9 +79,9 @@ export default function ProjectClient() {
           BACK
         </Link>
 
-        <p className="text-accent text-xs tracking-[0.2em] uppercase mb-3 font-mono">Series</p>
-        <h1 className="text-3xl sm:text-4xl font-serif tracking-widest mb-3">{title}</h1>
-        <p className="text-muted text-sm mb-16 tracking-wide">
+        <p className="text-accent text-xs tracking-[0.2em] uppercase mb-3 font-mono animate-reveal">Series</p>
+        <h1 className="text-3xl sm:text-4xl font-serif tracking-widest mb-3 animate-reveal">{title}</h1>
+        <p className="text-muted text-sm mb-16 tracking-wide animate-reveal">
           {loading ? "" : `${photos.length} 张作品`}
         </p>
       </motion.div>

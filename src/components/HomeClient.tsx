@@ -124,7 +124,7 @@ export default function HomeClient() {
             transition={
               reduced ? { duration: 0 } : { duration: 0.8, ease: "easeOut" }
             }
-            className="text-accent text-xs sm:text-sm tracking-[0.3em] uppercase mb-6 font-mono"
+            className="text-accent text-xs sm:text-sm tracking-[0.3em] uppercase mb-6 font-mono animate-reveal"
           >
             Photography Portfolio
           </motion.p>
@@ -137,7 +137,7 @@ export default function HomeClient() {
                 ? { duration: 0 }
                 : { duration: 0.8, delay: 0.1, ease: "easeOut" }
             }
-            className="text-7xl sm:text-8xl lg:text-9xl font-black font-serif tracking-[-0.02em] text-foreground leading-[0.9]"
+            className="text-7xl sm:text-8xl lg:text-9xl font-black font-serif tracking-[-0.02em] text-foreground leading-[0.9] animate-reveal"
           >
             镜头之下
           </motion.h1>
@@ -150,7 +150,7 @@ export default function HomeClient() {
                 ? { duration: 0 }
                 : { duration: 0.8, delay: 0.25, ease: "easeOut" }
             }
-            className="mt-8 text-muted text-base sm:text-lg tracking-wide max-w-md mx-auto leading-relaxed font-serif"
+            className="mt-8 text-muted text-base sm:text-lg tracking-wide max-w-md mx-auto leading-relaxed font-serif animate-reveal"
           >
             光影之间，捕捉那些转瞬即逝的真实
           </motion.p>
@@ -163,7 +163,7 @@ export default function HomeClient() {
                 ? { duration: 0 }
                 : { duration: 0.8, delay: 0.4, ease: "easeOut" }
             }
-            className="mt-6 text-muted/50 text-xs tracking-[0.15em] font-mono"
+            className="mt-6 text-muted/50 text-xs tracking-[0.15em] font-mono animate-reveal"
           >
             ISO 400 · f/5.6 · 1/250s
           </motion.p>

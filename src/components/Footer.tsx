@@ -20,7 +20,7 @@ export default function Footer() {
         <div className="mx-auto max-w-7xl px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex flex-col items-center sm:items-start gap-1">
             <p className="text-sm font-serif tracking-[0.3em] text-foreground">LENS</p>
-            <p className="text-xs text-muted tracking-wide">
+            <p className="text-xs text-muted tracking-wide animate-reveal">
               &copy; {new Date().getFullYear()} All rights reserved.
             </p>
           </div>
