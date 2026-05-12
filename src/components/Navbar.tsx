@@ -21,7 +21,7 @@ export default function Navbar() {
   const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -46,21 +46,23 @@ export default function Navbar() {
 
   const linkClass = (href: string) =>
     `relative py-1 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded ${
-      pathname === href ? 'text-foreground' : 'text-muted'
+      pathname === href ? 'text-foreground font-medium' : 'text-muted/60'
     }`;
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 ${
         scrolled
-          ? 'bg-background/60 backdrop-blur-2xl border-b border-white/[0.05]'
+          ? 'bg-background/50 backdrop-blur-2xl border-b border-white/[0.05]'
           : 'bg-transparent'
       }`}
     >
       <nav className="mx-auto max-w-7xl flex items-center justify-between px-6 h-16">
         <Link
           href="/"
-          className="text-lg font-serif tracking-[0.3em] text-foreground hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+          className={`font-serif tracking-[0.3em] text-foreground hover:opacity-70 transition-all duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded ${
+            scrolled ? 'text-base' : 'text-lg'
+          }`}
         >
           LENS
         </Link>
@@ -80,9 +82,6 @@ export default function Navbar() {
                   ) : (
                     <Link href={href} className={className}>
                       {label}
-                      {pathname === href && (
-                        <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-accent" />
-                      )}
                     </Link>
                   )}
                 </li>
@@ -114,7 +113,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-background/80 backdrop-blur-2xl border-b border-white/[0.05]">
+        <div className="md:hidden bg-background/95 border-b border-white/[0.05]">
           <ul className="flex flex-col px-6 pb-6 pt-2 gap-4 text-sm tracking-widest">
             {allLinks.map(({ href, label }) => {
               const isContact = href === '/contact' && isAdmin;
