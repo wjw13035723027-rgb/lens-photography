@@ -291,7 +291,7 @@ export default function HomeClient() {
                         />
                       </motion.div>
                       <motion.div
-                        className="absolute inset-0"
+                        className="absolute inset-0 pointer-events-none"
                         style={{ background: "var(--background)" }}
                         initial={reduced ? { y: "-100%" } : { y: "0%" }}
                         whileInView={reduced ? { y: "-100%" } : { y: "-100%" }}

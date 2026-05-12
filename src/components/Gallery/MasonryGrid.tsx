@@ -118,7 +118,7 @@ export default function MasonryGrid({ photos }: Props) {
                     />
                   </motion.div>
                   <motion.div
-                    className="absolute inset-0"
+                    className="absolute inset-0 pointer-events-none"
                     style={{ background: "var(--background)" }}
                     initial={noAnim ?? { y: "0%" }}
                     whileInView={noAnim ?? { y: "-100%" }}
