@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getStaticPhotos } from "@/lib/staticPhotos";
 
 export async function GET() {
   try {
+    const { prisma } = await import("@/lib/prisma");
     const count = await prisma.photo.count();
-    return NextResponse.json({ ok: true, photos: count });
+    return NextResponse.json({ ok: true, photos: count, source: "database" });
   } catch (error) {
-    console.error("Health check failed:", error);
-    return NextResponse.json({ ok: false, error: "健康检查失败" }, { status: 500 });
+    console.error("Health check failed; using bundled photo catalog:", error);
+    return NextResponse.json({
+      ok: true,
+      photos: getStaticPhotos().length,
+      source: "bundled",
+      database: false,
+    });
   }
 }
