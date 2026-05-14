@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LENS 摄影作品集
 
-## Getting Started
+基于 Next.js App Router、Prisma 7、libSQL/Turso 的摄影作品展示站点。站点包含作品系列、照片灯箱、联系表单、用户留言面板和管理员回复面板。
 
-First, run the development server:
+## 本地开发
 
 ```bash
+npm install
+npm run prepare:local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 `http://localhost:3000` 查看页面。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`prepare:local` 会创建 `data/` 目录、生成 Prisma Client、把 schema 推到本地 SQLite/libSQL 文件并写入照片种子数据。这个脚本只用于本地开发。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 常用脚本
 
-## Learn More
+```bash
+npm run dev          # 启动开发服务器
+npm run build        # 只做 Next.js 生产构建，不改数据库
+npm run start        # 启动生产服务器
+npm run lint         # ESLint
+npm test             # Node test runner + tsx
+npm run db:generate  # 生成 Prisma Client
+npm run db:push      # 推送 schema，非破坏性默认命令
+npm run db:seed      # 写入本地照片种子数据
+```
 
-To learn more about Next.js, take a look at the following resources:
+`npm run db:push:force` 包含 `--accept-data-loss`，只应在你确认可以丢弃数据的本地数据库上手动运行。不要把它放进构建或部署流程。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 环境变量
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+本地开发可以不配置远程数据库，代码会使用 `data/photography.db`。
 
-## Deploy on Vercel
+生产部署必须配置：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+JWT_SECRET=生成一个足够长的随机字符串
+TURSO_URL=libsql://...
+TURSO_TOKEN=...
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+在 Vercel 上部署时，如果缺少 `TURSO_URL`，应用会直接报错，避免把用户、留言或回复写入不可持久化的本地文件。非 Vercel 环境也可以设置 `TURSO_REQUIRED=true` 来强制要求远程数据库。
+
+## 认证与后台
+
+登录和注册接口会把 JWT 写入 `HttpOnly` cookie，客户端只保存安全的用户资料用于导航显示，不再把 token 写进 `localStorage`。后台接口会用 cookie 中的 `userId` 查询数据库，并以数据库里的当前 `role` 判断管理员权限。
+
+普通注册用户默认是 `role = "user"`。需要管理员账号时，在数据库中把指定用户的 `role` 改为 `admin`。
+
+## 图片与数据
+
+照片资源位于 `public/photos/`。照片元数据由 `prisma/seed.ts` 写入数据库。`data/blur-data-urls.json` 是可选的低清占位图数据；如果文件不存在，seed 仍会运行，只是不会写入 `blurDataURL`。
+
+相关脚本：
+
+```bash
+node scripts/optimize-images.mjs
+node scripts/generate-thumbnails.mjs
+tsx scripts/generate-blur.ts
+```
+
+## 部署注意
+
+部署流程应分开处理数据库和构建：
+
+1. 先在受控环境里运行数据库迁移或 `npm run db:push`。
+2. 如需种子数据，手动运行 `npm run db:seed`，不要在生产构建中自动 seed。
+3. 运行 `npm run build`。
+
+`npm run build` 不会再执行 `prisma db push`、`--accept-data-loss` 或 seed，避免构建时误改生产数据。

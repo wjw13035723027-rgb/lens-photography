@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getAuthUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/currentUser";
+import { isRateLimited, rateLimitKey } from "@/lib/rateLimit";
 import { z } from "zod";
 
 const schema = z.object({
@@ -12,6 +13,10 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   try {
+    if (isRateLimited(rateLimitKey(request, "contact"), { limit: 5, windowMs: 10 * 60 * 1000 })) {
+      return NextResponse.json({ error: "请求过于频繁，请稍后再试" }, { status: 429 });
+    }
+
     const body = await request.json();
 
     if (body.website) {
@@ -27,7 +32,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const authUser = await getAuthUser(request);
+    const authUser = await getCurrentUser(request);
 
     await prisma.contactMessage.create({
       data: {
@@ -35,12 +40,13 @@ export async function POST(request: Request) {
         email: parsed.data.email,
         subject: parsed.data.subject,
         message: parsed.data.message,
-        userId: authUser?.userId ?? null,
+        userId: authUser?.id ?? null,
       },
     });
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Contact error:", error);
     return NextResponse.json(
       { error: "发送失败，请稍后重试" },
       { status: 500 }

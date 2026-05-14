@@ -21,12 +21,14 @@ type FormData = z.infer<typeof schema>;
 export default function ContactClient() {
   const [sent, setSent] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const reduced = useReducedMotion();
   const {
     register,
     handleSubmit,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
@@ -39,13 +41,30 @@ export default function ContactClient() {
 
   const onSubmit = async (data: FormData) => {
     setServerError(null);
+    clearErrors();
+
+    const parsed = schema.safeParse(data);
+    if (!parsed.success) {
+      for (const issue of parsed.error.issues) {
+        const field = issue.path[0];
+        if (
+          field === "name" ||
+          field === "email" ||
+          field === "subject" ||
+          field === "message"
+        ) {
+          setError(field, { type: "validate", message: issue.message });
+        }
+      }
+      return;
+    }
+
     try {
       const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (token) headers["Authorization"] = `Bearer ${token}`;
       const res = await fetch("/api/contact", {
         method: "POST",
         headers,
-        body: JSON.stringify(data),
+        body: JSON.stringify(parsed.data),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error);

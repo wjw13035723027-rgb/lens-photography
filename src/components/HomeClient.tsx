@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Photo, Category, CATEGORY_LABELS, CATEGORIES, ProjectMeta } from "@/lib/types";
+import { Photo, CATEGORY_LABELS, CATEGORIES, ProjectMeta } from "@/lib/types";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 function seeded(seed: string, min: number, max: number): number {
@@ -34,6 +34,15 @@ function SkeletonGrid() {
   );
 }
 
+async function requestPhotos() {
+  const res = await fetch("/api/photos");
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || "加载作品失败");
+  }
+  return data as Photo[];
+}
+
 export default function HomeClient() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,22 +50,37 @@ export default function HomeClient() {
   const reduced = useReducedMotion();
   const parallaxRef = useRef<HTMLDivElement>(null);
 
-  const fetchPhotos = useCallback(() => {
+  const fetchPhotos = useCallback(async () => {
     setLoading(true);
     setError(null);
-    fetch("/api/photos")
-      .then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error);
-        setPhotos(data);
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+    try {
+      const data = await requestPhotos();
+      setPhotos(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "加载作品失败");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
+    let active = true;
+
+    void requestPhotos()
+      .then((data) => {
+        if (active) setPhotos(data);
+      })
+      .catch((e) => {
+        if (active) setError(e instanceof Error ? e.message : "加载作品失败");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (reduced) return;

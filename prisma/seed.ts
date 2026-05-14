@@ -1,11 +1,20 @@
 import { PrismaClient } from "../src/generated/prisma/client.js";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import blurData from "../data/blur-data-urls.json" with { type: "json" };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbPath = path.join(__dirname, "..", "data", "photography.db");
+const blurPath = path.join(__dirname, "..", "data", "blur-data-urls.json");
+
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+
+const blurData: { kansai: Record<string, string | undefined> } = { kansai: {} };
+if (fs.existsSync(blurPath)) {
+  const parsed = JSON.parse(fs.readFileSync(blurPath, "utf8")) as Partial<typeof blurData>;
+  blurData.kansai = parsed.kansai ?? {};
+}
 
 const adapter = new PrismaLibSql({ url: `file:${dbPath}` });
 const prisma = new PrismaClient({ adapter });

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getAuthUser } from "@/lib/auth";
+import { requireAdminUser } from "@/lib/currentUser";
 
 export async function GET(request: Request) {
-  const payload = await getAuthUser(request);
-  if (!payload || payload.role !== "admin") {
+  const user = await requireAdminUser(request);
+  if (!user) {
     return NextResponse.json({ error: "无权限" }, { status: 403 });
   }
 

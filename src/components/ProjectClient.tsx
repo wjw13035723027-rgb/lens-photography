@@ -27,10 +27,19 @@ function isValidCategory(slug: string): slug is Category {
   return (CATEGORIES as readonly string[]).includes(slug);
 }
 
+async function requestPhotos(slug: string) {
+  const res = await fetch(`/api/photos?category=${encodeURIComponent(slug)}`);
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || "加载作品失败");
+  }
+  return data as Photo[];
+}
+
 export default function ProjectClient() {
   const { slug } = useParams<{ slug: string }>();
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadedSlug, setLoadedSlug] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const reduced = useReducedMotion();
 
@@ -40,27 +49,42 @@ export default function ProjectClient() {
   const prevSlug = catIndex > 0 ? CATEGORIES[catIndex - 1] : null;
   const nextSlug = catIndex >= 0 && catIndex < CATEGORIES.length - 1 ? CATEGORIES[catIndex + 1] : null;
 
-  const fetchPhotos = useCallback(() => {
+  const fetchPhotos = useCallback(async () => {
     if (!valid) {
-      setPhotos([]);
-      setLoading(false);
       return;
     }
-    setLoading(true);
     setError(null);
-    fetch(`/api/photos?category=${encodeURIComponent(slug)}`)
-      .then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error);
-        setPhotos(data);
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+    setLoadedSlug(null);
+    try {
+      const data = await requestPhotos(slug);
+      setPhotos(data);
+      setLoadedSlug(slug);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "加载作品失败");
+    }
   }, [slug, valid]);
 
   useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
+    if (!valid) return;
+
+    let active = true;
+
+    void requestPhotos(slug)
+      .then((data) => {
+        if (!active) return;
+        setPhotos(data);
+        setLoadedSlug(slug);
+      })
+      .catch((e) => {
+        if (active) setError(e instanceof Error ? e.message : "加载作品失败");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [slug, valid]);
+
+  const loading = valid && loadedSlug !== slug && !error;
 
   return (
     <div className="mx-auto max-w-7xl px-6 pt-24 pb-32">

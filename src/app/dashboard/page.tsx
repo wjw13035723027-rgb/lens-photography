@@ -15,7 +15,7 @@ interface Message {
 }
 
 export default function DashboardPage() {
-  const { user, token, logout, loading: authLoading } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,23 +27,26 @@ export default function DashboardPage() {
       router.push("/login");
       return;
     }
-    fetchMessages();
-  }, [user, authLoading]);
 
-  async function fetchMessages() {
-    try {
-      const res = await fetch("/api/user/messages", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setMessages(data);
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+    let active = true;
+
+    void (async () => {
+      try {
+        const res = await fetch("/api/user/messages");
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        if (active) setMessages(data);
+      } catch (e) {
+        if (active) setError(e instanceof Error ? e.message : "留言加载失败");
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [user, authLoading, router]);
 
   if (authLoading || loading) {
     return (

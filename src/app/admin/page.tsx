@@ -17,7 +17,7 @@ interface Message {
 }
 
 export default function AdminPage() {
-  const { user, token, logout, loading: authLoading } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
   const [error, setError] = useState("");
@@ -31,23 +31,26 @@ export default function AdminPage() {
       router.push("/login");
       return;
     }
-    fetchMessages();
-  }, [user, authLoading]);
 
-  async function fetchMessages() {
-    try {
-      const res = await fetch("/api/admin/messages", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setMessages(data);
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+    let active = true;
+
+    void (async () => {
+      try {
+        const res = await fetch("/api/admin/messages");
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        if (active) setMessages(data);
+      } catch (e) {
+        if (active) setError(e instanceof Error ? e.message : "留言加载失败");
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [user, authLoading, router]);
 
   async function handleReply(id: string) {
     const text = replyText[id]?.trim();
@@ -58,7 +61,6 @@ export default function AdminPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ reply: text }),
       });
@@ -68,8 +70,8 @@ export default function AdminPage() {
         prev.map((m) => (m.id === id ? { ...m, reply: data.reply, repliedAt: data.repliedAt } : m))
       );
       setReplyText((prev) => ({ ...prev, [id]: "" }));
-    } catch (e: any) {
-      alert(e.message);
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "回复失败，请稍后重试");
     } finally {
       setReplying((prev) => ({ ...prev, [id]: false }));
     }
@@ -101,7 +103,9 @@ export default function AdminPage() {
       </div>
 
       {messages.length === 0 ? (
-        <p className="text-muted text-sm text-center py-20">暂无留言</p>
+        <p className={`text-sm text-center py-20 ${error ? "text-red-400" : "text-muted"}`}>
+          {error || "暂无留言"}
+        </p>
       ) : (
         <div className="space-y-6">
           {messages.map((msg, i) => (

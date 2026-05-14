@@ -5,7 +5,8 @@ export async function GET() {
   try {
     const count = await prisma.photo.count();
     return NextResponse.json({ ok: true, photos: count });
-  } catch (e: any) {
-    return NextResponse.json({ ok: false, error: e.message }, { status: 500 });
+  } catch (error) {
+    console.error("Health check failed:", error);
+    return NextResponse.json({ ok: false, error: "健康检查失败" }, { status: 500 });
   }
 }

@@ -25,10 +25,10 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      login(data.token, data.user);
+      login(data.user);
       router.push(data.user.role === "admin" ? "/admin" : "/dashboard");
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "登录失败，请稍后重试");
     } finally {
       setLoading(false);
     }
